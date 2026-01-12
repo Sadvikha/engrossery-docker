@@ -1,4 +1,4 @@
-# 🐳 Docker Setup – Engrossery
+# 🐳 Docker Setup - Engrossery
 
 This repository demonstrates **Dockerizing a multi-service application** using:
 
