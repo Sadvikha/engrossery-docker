@@ -52,9 +52,9 @@ Compose **does not store containers or images** — it only **orchestrates them*
 ## 📁 Docker Files Structure
 
 engrossery-docker
-├── grocery-frontend/Dockerfile
-├── grocery-backend/Dockerfile
-└── docker-compose.yml
+- ├── grocery-frontend/Dockerfile
+- ├── grocery-backend/Dockerfile
+- └── docker-compose.yml
 
 
 
@@ -70,18 +70,18 @@ engrossery-docker
 
 ```bash
 docker compose up
+```
 
-Run in background:
-
+### Run in background:
+```bash
 docker compose up -d
+```
+### This command:
 
+- Pulls images (if not present)
 
-This command:
+- Builds images (if configured)
 
-Pulls images (if not present)
+- Creates containers
 
-Builds images (if configured)
-
-Creates containers
-
-Starts networking automatically
+- Starts networking automatically
