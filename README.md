@@ -1,175 +1,87 @@
-# 🛒 Engrossery
+# 🐳 Docker Setup – Engrossery
 
-**Engrossery** is a full-stack **Grocery Shopping Web Application** featuring **user authentication, product management, order handling, and a Seller Dashboard**.  
-The application is built using **React (Vite)** for the frontend and **Node.js + Express + MongoDB** for the backend, and is fully deployed on the cloud.
+This repository demonstrates **Dockerizing a multi-service application** using:
 
-🔗 **Live Website:** https://engrossery-upd.vercel.app/  
-🔗 **Backend API:** https://engrossery-d6eg.onrender.com  
+- Docker images
+- Docker containers
+- Docker Compose
+- Docker Hub
 
----
-
-## 🚀 Key Features
-
-### 👤 User Features
-- User registration & login (JWT authentication)
-- Browse grocery products
-- Add products to cart
-- Place orders
-- Secure API communication
-
-### 🧑‍💼 Seller Dashboard
-- Dedicated seller interface
-- Manage products (view & control listings)
-- Access seller-specific routes
-- Role-based access control (User vs Seller)
-
-### 🛡️ Backend & Security
-- JWT-based authentication
-- Role-aware API routing
-- MongoDB data persistence
-- Secure environment variable handling
+The goal is to provide a **single-command setup** for any new developer.
 
 ---
 
-## 🧱 Tech Stack
+## 🧱 Docker Components Used
 
-### Frontend
-- React (Vite)
-- Tailwind CSS
-- Axios
-- React Router
-- Zustand (state management)
-- React Hook Form
+### Docker Images
+- `sadvikham/engrossery-frontend:latest`
+- `sadvikham/engrossery-backend:latest`
+- `mongo:7` (official image)
 
-### Backend
-- Node.js
-- Express.js
-- MongoDB (Mongoose)
-- JSON Web Tokens (JWT)
-- CORS & Morgan
-
-### Deployment
-- **Frontend:** Vercel
-- **Backend:** Render
-- **Database:** MongoDB Atlas
+> Docker Hub stores **images only**, not containers.
 
 ---
 
-## 📁 Project Structure (Monorepo)
+### Docker Containers
+Containers are **runtime instances** created from images.
+
+| Container | Source Image |
+|---------|-------------|
+| engrossery-frontend | engrossery-frontend |
+| engrossery-backend | engrossery-backend |
+| engrossery-mongo | mongo:7 |
+
+Each time an image is run, **a new container is created**.
+
+---
+
+## 🧩 Docker Compose Role
+
+`docker-compose.yml` is responsible for:
+
+- Starting **multiple containers together**
+- Creating a **shared network**
+- Managing **environment variables**
+- Controlling **port mappings**
+- Ensuring **correct startup order**
+
+Compose **does not store containers or images** — it only **orchestrates them**.
+
+---
+
+## 📁 Docker Files Structure
+
+engrossery-docker
+├── grocery-frontend/Dockerfile
+├── grocery-backend/Dockerfile
+└── docker-compose.yml
+
+
+
+### Why separate Dockerfiles?
+- Each service has **independent dependencies**
+- Enables **layer caching**
+- Allows **individual image builds**
+- Follows Docker best practices
+
+---
+
+## 🚀 Running Everything (One Command)
 
 ```bash
-Engrossery/
-├── grocery-backend/
-│   ├── config/
-│   │   └── db.js
-│   ├── middleware/
-│   │   └── authMiddleware.js
-│   ├── models/
-│   │   ├── User.js
-│   │   ├── Product.js
-│   │   └── Order.js
-│   ├── routes/
-│   │   ├── authRoutes.js
-│   │   ├── productRoutes.js
-│   │   ├── orderRoutes.js
-│   │   └── userRoutes.js
-│   ├── .env
-│   ├── .gitignore
-│   ├── package.json
-│   ├── package-lock.json
-│   └── server.js
-│
-├── grocery-frontend/
-│   ├── public/
-│   ├── src/
-│   │   ├── assets/
-│   │   ├── App.jsx
-│   │   ├── main.jsx
-│   │   └── index.css
-│   ├── index.html
-│   ├── vite.config.js
-│   ├── tailwind.config.js
-│   ├── postcss.config.js
-│   ├── eslint.config.js
-│   ├── package.json
-│   ├── package-lock.json
-│   └── README.md
-│
-├── .gitignore
-└── README.md  
+docker compose up
 
-```
+Run in background:
 
-### 🔐 Environment Variables
-Backend (Render)
-- MONGO_URI=your_mongodb_connection_string
-- JWT_SECRET=your_jwt_secret
-- PORT=5000
-
-## Frontend (Vercel)
-VITE_API_URL=https://engrossery-d6eg.onrender.com/api
-
-### ⚙️ Local Development Setup
-## 1️⃣ Clone the Repository
-- git clone https://github.com/Sadvikha/Engrossery_.git
-- cd Engrossery_
-
-## 2️⃣ Backend Setup
-- cd grocery-backend
-- npm install
-- npm start
+docker compose up -d
 
 
-Backend runs at:
+This command:
 
-http://localhost:5000
+Pulls images (if not present)
 
-## 3️⃣ Frontend Setup
-- cd grocery-frontend
-- npm install
-- npm run dev
+Builds images (if configured)
 
+Creates containers
 
-Frontend runs at:
-
-http://localhost:5173
-
-
-Login as "Admin":
-
-- Username: admin@gmail.com
-- Password: admin123
-
-### 🌐 API Endpoints Overview
-- Method	Endpoint	Description
-- POST	/api/auth/register	Register user
-- POST	/api/auth/login	Login user
-- GET	/api/products	Fetch products
-- POST	/api/orders	Create order
-- GET	/api/user	User / Seller details
-
-### 🧪 Notes
-
-1) Render free tier services sleep on inactivity, so the first API request may take a few seconds.
-
-2) Frontend and backend are fully decoupled and communicate only via hosted APIs.
-
-3) No sensitive information is committed to the repository.
-
-
-### 📌 Future Enhancements
-
-- Admin-level dashboard
-
-- Payment gateway integration
-
-- Advanced product filtering & search
-
-- Order tracking system
-
-- Improved analytics for sellers
-
-### 👤 Author
-
-Sadvikha
-GitHub: https://github.com/Sadvikha
+Starts networking automatically
