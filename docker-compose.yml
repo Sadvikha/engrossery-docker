@@ -1,0 +1,31 @@
+services:
+  mongo:
+    image: mongo:7
+    container_name: engrossery-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  backend:
+    image: engrossery-backend
+    build: ./grocery-backend
+    container_name: engrossery-backend
+    ports:
+      - "5000:5000"
+    environment:
+      MONGO_URI: mongodb://mongo:27017/engrossery
+    depends_on:
+      - mongo
+
+  frontend:
+    image: engrossery-frontend
+    build: ./grocery-frontend
+    container_name: engrossery-frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+volumes:
+  mongo_data:
