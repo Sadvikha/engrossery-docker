@@ -85,3 +85,69 @@ docker compose up -d
 - Creates containers
 
 - Starts networking automatically
+
+
+## Running the Project
+
+There are two ways to run the Engrossery project, depending on what you need:
+
+### Purpose 1: Quick Run / Demo / Read-Only Mode  
+(For testing, stakeholders, or anyone who just wants to see the app working without editing code)
+
+This uses **pre-built images** from Docker Hub - fastest startup, no build required, and **guaranteed consistency** (no "it doesn't work on my system" issues).
+
+```bash
+# 1. Clone the repo (only docker-compose.yml is needed)
+git clone https://github.com/sadvikha/Engrossery_.git
+cd Engrossery_
+
+# 2. Pull the pre-built images
+docker pull sadvikham/engrossery-frontend:latest
+docker pull sadvikham/engrossery-backend:latest
+
+# 3. Start the app (fast!)
+docker compose up -d
+
+# 4. Check status (optional)
+docker compose ps
+
+# 5. Open in browser
+# Frontend: http://localhost:5173
+# Backend (test): http://localhost:5000
+
+# Stop when done
+docker compose down
+```
+Best for: Quick verification, demos, or non-developers.
+Limitation: You cannot edit code - it's a frozen snapshot.
+
+### Purpose 2: Development / Editing / Contributing Mode
+(For developers who need to edit code, add features, fix bugs)
+This builds everything from source code - allows full editing while still ensuring perfect environment consistency across machines.
+
+```bash
+# 1. Clone the full repo
+git clone https://github.com/sadvikha/Engrossery_.git
+cd Engrossery_
+
+# 2. Open in VS Code (recommended)
+code .
+
+# 3. Edit code (frontend/src/, backend/src/, etc.) → save files
+
+# 4. Rebuild images from your changes + restart
+docker compose up --build -d
+
+# 5. Test in browser (repeat edit → rebuild as needed)
+# Frontend: http://localhost:5173
+
+# 6. When ready, commit & push
+git add .
+git commit -m "Added new cart feature"
+git push origin main
+
+# Stop when done
+docker compose down
+```
+Best for: Developers, contributors, feature work.
+Why Docker helps here: Every build uses the exact same Node version, dependencies, and setup - no compatibility problems ever.
